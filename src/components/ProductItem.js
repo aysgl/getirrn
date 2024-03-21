@@ -7,7 +7,7 @@ import {COLOR} from '../theme/color';
 import {AddSquare} from 'iconsax-react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {addCart} from '../redux/productsAction';
+import {addProduct} from '../redux/productsAction';
 
 export default function ProductItem({item}) {
   const navigation = useNavigation();
@@ -25,7 +25,7 @@ export default function ProductItem({item}) {
       <TouchableOpacity
         style={{zIndex: 2}}
         onPress={() => {
-          dispatch(addCart(item));
+          dispatch(addProduct(item));
           navigation.navigate('Cart');
         }}>
         <AddSquare

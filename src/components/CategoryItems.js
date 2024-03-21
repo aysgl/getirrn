@@ -7,7 +7,6 @@ import {useNavigation} from '@react-navigation/native';
 
 export default function CategoryItems({cat}) {
   const navigation = useNavigation();
-
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('CategoryDetails', {category: cat})}

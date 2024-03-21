@@ -2,7 +2,7 @@ import {View, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 import CategoryItems from './CategoryItems';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCategories} from '../redux/productsAction';
+import {getCategories} from '../redux/categoriesAction';
 
 export default function MainCategories() {
   const dispatch = useDispatch();

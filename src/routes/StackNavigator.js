@@ -24,7 +24,7 @@ export function StackNavigator() {
           headerTitle: () => <Home size={30} color={COLOR.YELLOW} />,
         }}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="CategoryDetails"
         component={CategoryFilter}
         options={({navigation}) => ({
@@ -105,7 +105,7 @@ export function StackNavigator() {
             </TouchableOpacity>
           ),
         })}
-      /> */}
+      />
     </Stack.Navigator>
   );
 }

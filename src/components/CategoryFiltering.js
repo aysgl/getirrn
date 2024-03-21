@@ -5,7 +5,7 @@ import React, {useEffect} from 'react';
 import {COLOR} from '../theme/color';
 import {height, width} from '../utils/dimension';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCategories} from '../redux/productsAction';
+import {getCategories} from '../redux/categoriesAction';
 
 const CategoryBox = ({item, active}) => {
   return (

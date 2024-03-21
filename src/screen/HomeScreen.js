@@ -12,7 +12,7 @@ export default function HomeScreen() {
       style={{backgroundColor: COLOR.WHITE}}>
       <Header />
       <Carousel />
-      {/* <MainCategories /> */}
+      <MainCategories />
     </ScrollView>
   );
 }
