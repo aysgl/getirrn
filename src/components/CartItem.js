@@ -1,10 +1,31 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Image, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {height, width} from '../utils/dimension';
 import {COLOR} from '../theme/color';
+import {useDispatch} from 'react-redux';
+import {deleteCart, updateCartItemQuantity} from '../redux/cartsAction';
 
-export default function CartItem({product}) {
+export default function CartItem({product, quantity}) {
+  const [count, setCount] = useState(quantity);
+  const dispatch = useDispatch();
+
+  const handleIncrement = () => {
+    const newQuantity = count + 1;
+    dispatch(updateCartItemQuantity({itemId: product.id, newQuantity}));
+    setCount(newQuantity);
+  };
+
+  const handleDecrement = () => {
+    if (count > 1) {
+      const newQuantity = count - 1;
+      dispatch(updateCartItemQuantity({itemId: product.id, newQuantity}));
+      setCount(newQuantity);
+    } else {
+      dispatch(deleteCart(product.id));
+    }
+  };
+
   return (
     <View
       style={{
@@ -45,7 +66,7 @@ export default function CartItem({product}) {
             {product.miktar}
           </Text>
           <Text style={{color: COLOR.PURPLE, fontWeight: 'bold'}}>
-            {product.fiyatIndirimli}
+            {product.fiyat}
           </Text>
         </View>
       </View>
@@ -64,7 +85,7 @@ export default function CartItem({product}) {
           shadowRadius: 6,
           elevation: 5,
         }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleDecrement}>
           <Text
             style={{
               padding: 6,
@@ -80,10 +101,10 @@ export default function CartItem({product}) {
               paddingHorizontal: 10,
               color: COLOR.WHITE,
             }}>
-            0
+            {count}
           </Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleIncrement}>
           <Text style={{padding: 6, paddingHorizontal: 10}}>+</Text>
         </TouchableOpacity>
       </View>

@@ -9,10 +9,13 @@ export const getProducts = createAsyncThunk(
   },
 );
 
-export const addProduct = createAsyncThunk('products/addProduct', async job => {
-  await axios.post('http://localhost:4000/products', job);
-  return job;
-});
+export const addProduct = createAsyncThunk(
+  'products/addProduct',
+  async data => {
+    await axios.post('http://localhost:4000/products', data);
+    return data;
+  },
+);
 
 export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',

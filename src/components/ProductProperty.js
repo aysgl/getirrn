@@ -1,18 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import {View, Text} from 'react-native';
-import React, {useState} from 'react';
-import {Arrow, ArrowDown2} from 'iconsax-react-native';
+import React from 'react';
+import {ArrowDown2} from 'iconsax-react-native';
 import {COLOR} from '../theme/color';
 
 export default function ProductProperty() {
-  const [details, setDetails] = useState([
+  const details = [
     'Sütlü kıtır çikolata ve badem parçacıklarıyla kaplı vanilya lezzeti',
     'İçindekiler',
     'Besin Değerleri',
     'Kullanım',
-    'Ek Bilgiler',
-  ]);
+  ];
 
   const TextComponent = ({detail, index}) => {
     return (

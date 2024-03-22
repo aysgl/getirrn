@@ -1,19 +1,44 @@
-/* eslint-disable react/jsx-no-duplicate-props */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react/no-unstable-nested-components */
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ArrowLeft, Bag, Home, Trash} from 'iconsax-react-native';
 import HomeScreen from '../screen/HomeScreen';
 import {COLOR} from '../theme/color';
 import CategoryFilter from '../screen/CategoryDetails';
 import ProductDetails from '../screen/ProductDetails';
 import CartScreen from '../screen/CartScreen';
+import {useDispatch, useSelector} from 'react-redux';
+import {clearCart, getCarts} from '../redux/cartsAction';
+import {useNavigation} from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 
 export function StackNavigator() {
+  const [total, setTotal] = useState(0);
+  const dispatch = useDispatch();
+  const state = useSelector(store => store.carts);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    dispatch(getCarts());
+    // dispatch(clearCart());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (state.carts) {
+      let totalPrice = 0;
+      state.carts.forEach(item => {
+        totalPrice += item.fiyat * item.adet;
+      });
+      setTotal(totalPrice);
+    }
+  }, [state.carts]);
+
+  const handleClear = () => {
+    dispatch(clearCart());
+    navigation.navigate('Home Screen');
+  };
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -63,7 +88,7 @@ export function StackNavigator() {
                       fontSize: 14,
                       fontWeight: 'bold',
                     }}>
-                    $24.00
+                    {total.toFixed(2)}
                   </Text>
                 </View>
               </View>
@@ -74,7 +99,7 @@ export function StackNavigator() {
       <Stack.Screen
         name="ProductDetails"
         component={ProductDetails}
-        options={({navigation}) => ({
+        options={{
           headerTintColor: COLOR.WHITE,
           headerBackTitleVisible: false,
           headerStyle: {backgroundColor: COLOR.PURPLE},
@@ -84,7 +109,7 @@ export function StackNavigator() {
               <ArrowLeft />
             </TouchableOpacity>
           ),
-        })}
+        }}
       />
       <Stack.Screen
         name="Cart"
@@ -100,7 +125,7 @@ export function StackNavigator() {
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={() => handleClear()}>
               <Trash />
             </TouchableOpacity>
           ),

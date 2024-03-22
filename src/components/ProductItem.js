@@ -1,33 +1,32 @@
-/* eslint-disable no-undef */
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, TouchableOpacity, Image} from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {height, width} from '../utils/dimension';
 import {COLOR} from '../theme/color';
 import {AddSquare} from 'iconsax-react-native';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
-import {addProduct} from '../redux/productsAction';
+import {useDispatch} from 'react-redux';
+import {addToCart} from '../redux/cartsAction';
 
 export default function ProductItem({item}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const state = useSelector(store => store.products);
 
-  // useEffect(() => {
-  //   dispatch(addCart());
-  // }, [dispatch]);
+  const handleAddToCart = () => {
+    const updatedItem = {
+      ...item,
+      adet: item.adet ? item.adet + 1 : 1,
+    };
+
+    dispatch(addToCart(updatedItem));
+    navigation.navigate('Cart');
+  };
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('ProductDetails', (product = item))}
+      onPress={() => navigation.navigate('ProductDetails', {product: item})}
       style={{margin: 10, width: width * 0.28}}>
-      <TouchableOpacity
-        style={{zIndex: 2}}
-        onPress={() => {
-          dispatch(addProduct(item));
-          navigation.navigate('Cart');
-        }}>
+      <TouchableOpacity style={{zIndex: 2}} onPress={() => handleAddToCart()}>
         <AddSquare
           size={30}
           style={{
@@ -56,8 +55,6 @@ export default function ProductItem({item}) {
           style={{
             width: width * 0.28,
             height: height * 0.14,
-            // borderWidth: 1,
-            // borderColor: COLOR.LIGHTGRAY,
             borderRadius: 20,
           }}
         />

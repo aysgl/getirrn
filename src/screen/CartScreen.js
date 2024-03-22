@@ -1,36 +1,43 @@
-import {View, FlatList, ScrollView} from 'react-native';
-import React, {useEffect} from 'react';
-import CartItem from '../components/CartItem';
-import {COLOR} from '../theme/color';
-import Button from '../components/Button';
-import ProductItem from '../components/ProductItem';
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/react-in-jsx-scope */
+import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getProducts} from '../redux/productsAction';
+import {getCarts} from '../redux/cartsAction';
+import {FlatList, View} from 'react-native';
+import CartItem from '../components/CartItem';
+import Button from '../components/Button';
+import {COLOR} from '../theme/color';
 
 export default function CartScreen() {
+  const [total, setTotal] = useState(0);
   const dispatch = useDispatch();
-  const state = useSelector(store => store.products);
+  const state = useSelector(store => store.carts);
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getCarts());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (state.carts) {
+      let totalPrice = 0;
+      state.carts.forEach(item => {
+        totalPrice += item.fiyat * item.adet;
+      });
+      setTotal(totalPrice);
+    }
+  }, [state.carts]);
 
   return (
     <View style={{backgroundColor: COLOR.WHITE, flex: 1}}>
       <FlatList
-        data={state.products.slice(0, 2)}
-        renderItem={({item}) => <CartItem product={item} />}
+        data={state.carts}
+        keyExtractor={index => index.toString()}
+        renderItem={({item}) => (
+          <CartItem key={item.id} product={item} quantity={item.adet} />
+        )}
       />
-      <ScrollView
-        style={{marginTop: -120}}
-        horizontal
-        showsHorizontalScrollIndicator={false}>
-        {state.products.slice(2).map((item, index) => (
-          <ProductItem key={index} item={item} />
-        ))}
-      </ScrollView>
       <View>
-        <Button title={'Continue'} price={'24.00'} />
+        <Button title={'Continue'} price={total.toFixed(2)} />
       </View>
     </View>
   );

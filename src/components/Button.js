@@ -3,10 +3,23 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {width} from '../utils/dimension';
 import {COLOR} from '../theme/color';
+import {addToCart} from '../redux/cartsAction';
+import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
-export default function Button({title, price}) {
+export default function Button({title, price, product}) {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    const productWithQuantity = {...product, adet: 1};
+    dispatch(addToCart(productWithQuantity));
+    navigation.navigate('Cart');
+  };
+
   return (
     <TouchableOpacity
+      onPress={() => handleAddToCart()}
       style={{
         width: width - 20,
         backgroundColor: COLOR.YELLOW,
