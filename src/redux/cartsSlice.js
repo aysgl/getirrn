@@ -39,16 +39,16 @@ const cartsSlice = createSlice({
       .addCase(addToCart.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
+        state.carts.push(action.payload);
+        // const existingCartItemIndex = state.carts.findIndex(
+        //   item => item.id === action.payload,
+        // );
 
-        const existingCartItemIndex = state.carts.findIndex(
-          item => item.id === action.payload.id,
-        );
-
-        if (existingCartItemIndex !== -1) {
-          state.carts[existingCartItemIndex].adet += 1;
-        } else {
-          state.carts.push(action.payload);
-        }
+        // if (existingCartItemIndex !== -1) {
+        //   state.carts[existingCartItemIndex].adet += 1;
+        // } else {
+        //   state.carts.push(action.payload);
+        // }
       })
       .addCase(deleteCart.pending, state => {
         state.isLoading = true;
