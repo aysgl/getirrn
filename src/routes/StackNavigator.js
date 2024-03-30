@@ -1,7 +1,8 @@
+/* eslint-disable react/no-unstable-nested-components */
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {ArrowLeft, Bag, Home, Trash} from 'iconsax-react-native';
+import {Apple, ArrowLeft, Bag, Cake, Home, Trash} from 'iconsax-react-native';
 import HomeScreen from '../screen/HomeScreen';
 import {COLOR} from '../theme/color';
 import CategoryFilter from '../screen/CategoryDetails';
@@ -45,8 +46,15 @@ export function StackNavigator() {
         name="Home Screen"
         component={HomeScreen}
         options={{
+          headerShown: false,
           headerStyle: {backgroundColor: COLOR.PURPLE},
-          headerTitle: () => <Home size={30} color={COLOR.YELLOW} />,
+          headerTitle: () => (
+            <View style={{flexDirection: 'row'}}>
+              <Home size={24} color={COLOR.YELLOW} style={{marginEnd: 10}} />
+              <Cake size={24} color={COLOR.YELLOW} style={{marginEnd: 10}} />
+              <Apple size={24} color={COLOR.YELLOW} style={{marginEnd: 10}} />
+            </View>
+          ),
         }}
       />
       <Stack.Screen

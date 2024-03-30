@@ -31,7 +31,7 @@ export default function CartScreen() {
     <View style={{backgroundColor: COLOR.WHITE, flex: 1}}>
       <FlatList
         data={state.carts}
-        keyExtractor={index => index.toString()}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
           <CartItem key={item.id} product={item} quantity={item.adet} />
         )}

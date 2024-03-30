@@ -1,35 +1,41 @@
-import {View, StyleSheet} from 'react-native';
-import React, {useEffect} from 'react';
-import CategoryItems from './CategoryItems';
-import {useDispatch, useSelector} from 'react-redux';
-import {getCategories} from '../redux/categoriesAction';
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/no-unstable-nested-components */
+import {StyleSheet} from 'react-native';
+import React from 'react';
+import {useNavigation} from '@react-navigation/native';
+import MasonryFlatlist from 'react-native-masonry-grid';
+import Card from './Card';
 
-export default function MainCategories() {
-  const dispatch = useDispatch();
-  const state = useSelector(store => store.categories);
-
-  useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
-
+export default function MainCategories({data}) {
+  const navigation = useNavigation();
   return (
-    <View style={styles.listContainer}>
-      {state.categories.map((cat, index) => (
-        <CategoryItems key={index} cat={cat} />
-      ))}
-    </View>
+    <MasonryFlatlist
+      data={data}
+      numColumns={3}
+      columnWrapperStyle={styles.columnWrapperStyle}
+      showsVerticalScrollIndicator={false}
+      style={styles.masonryFlatlist}
+      renderItem={({item, index}) => {
+        return (
+          <Card
+            data={item}
+            onPress={() =>
+              navigation.navigate('CategoryDetails', {category: item})
+            }
+          />
+        );
+      }}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  listContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    width: '100%',
-    gap: 3,
-    padding: 10,
+  columnWrapperStyle: {
+    marginTop: 0,
+    gap: 10,
+  },
+  masonryFlatlist: {
+    display: 'flex',
+    margin: 10,
   },
 });

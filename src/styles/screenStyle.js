@@ -5,7 +5,13 @@ const {height} = Dimensions.get('window');
 const {width} = Dimensions.get('window');
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#ffb300',
+    borderColor: '#E4E4E4',
+    backgroundColor: 'white',
+    borderWidth: 2,
+    width: '90%',
+    borderRadius: 10,
+    marginHorizontal: 20,
+    marginTop: 100,
   },
   bgPurple: {
     backgroundColor: COLOR.PURPLE,
@@ -37,10 +43,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   barEnd: {
-    height: 60,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    width: 10,
   },
   wFull: {
     width: width,
